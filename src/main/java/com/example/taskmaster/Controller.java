@@ -1,6 +1,5 @@
 package com.example.taskmaster;
 
-import org.apache.catalina.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,10 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @org.springframework.stereotype.Controller
 public class Controller {
     UserHandler staticuser = new UserHandler();
+
+    @PostMapping("/")
+    public String howtouse() {
+        return "HowtoUse";
+    }
 
     @GetMapping("/login")
     public String getlogin() {
@@ -42,7 +48,9 @@ public class Controller {
             model.addAttribute("wrongsignup", "This User is already registered!");
             return "RegisterUser";
         }
-        model.addAttribute("connects", RoomManager.getConnects(user));
+        List<Connects> ausgabe = RoomManager.getConnects(user);
+        Collections.reverse(ausgabe);
+        model.addAttribute("connects", ausgabe);
         staticuser = user;
         return "Room-List";
     }
@@ -55,7 +63,9 @@ public class Controller {
             model.addAttribute("wronglogin", "Login data is not valid!");
             return "LoginUser";
         }
-        model.addAttribute("connects", RoomManager.getConnects(user));
+        List<Connects> ausgabe = RoomManager.getConnects(user);
+        Collections.reverse(ausgabe);
+        model.addAttribute("connects", ausgabe);
         staticuser = user;
         return "Room-List";
     }
@@ -91,5 +101,12 @@ public class Controller {
         RoomManager.deleteGroups(staticuser);
         model.addAttribute("connects", new ArrayList<>());
         return "Room-List";
+    }
+
+    @PostMapping("after-back-room-list")
+    public String afterbackroomlist(Model model) {
+        model.addAttribute("wrongsignup","");
+        model.addAttribute("wronglogin", "");
+        return "LoginUser";
     }
 }

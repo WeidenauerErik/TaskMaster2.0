@@ -93,6 +93,9 @@
     </style>
 </head>
 <body>
+<nav>
+    <form action="after-back-room-list" method="post"><button class="submitButton">Back to Login</button></form>
+</nav>
 <div>
     <h1>Connect to a room</h1>
     <form action="/after-connect" method="post">
@@ -144,7 +147,7 @@
         </form>
     </div>
     <div th:each="connects:${connects}" style="">
-        <div style="background-color: #b6d2d2; border-radius: 10px">
+        <div style="background-color: #8ba4a4; border-radius: 10px">
             <p style="padding: 5px"><span th:text="${connects.getRoomname()}" class="connects">Roomname</span> made by:
                 <span th:text="${connects.getOwner()}" class="connects">Owner</span></p>
         </div>

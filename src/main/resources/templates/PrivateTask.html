@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Private Tasks</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@100&display=swap');
+
+        .submitButton {
+            width: 100%;
+            height: 40px;
+            font-size: 1.2em;
+        }
+
+        * {
+            color: #1e2f2f;
+            font-family: 'Noto Sans Gujarati', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .wrong {
+            color: red;
+        }
+
+        .LoginField {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-flow: column nowrap;
+            gap: 10px;
+        }
+
+        .loginItem {
+            position: relative;
+            width: 250px;
+        }
+
+        .loginItem input {
+            width: 100%;
+            padding: 10px;
+            border: rgba(30, 47, 47, 0.25) 1px solid;
+            background: white;
+            border-radius: 5px;
+            outline: none;
+            color: #1e2f2f;
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        .loginItem span {
+            position: absolute;
+            left: 0;
+            padding: 10px;
+            pointer-events: none;
+            font-size: 1.2em;
+            color: #1e2f2f;
+            text-transform: uppercase;
+        }
+
+        .loginItem input:valid ~ span,
+        .loginItem input:focus ~ span {
+            color: #1e2f2f;
+            transform: translateX(10px) translateY(-7px);
+            transition-duration: 0.3s;
+            background-color: white;
+            font-size: 0.65em;
+            padding: 0 10px;
+            border-left: 1px solid #1e2f2f;
+            border-right: 1px solid #1e2f2f;
+            letter-spacing: 0.2em;
+        }
+
+        .loginItem input:valid,
+        .loginItem input:focus {
+            border: 1px solid #1e2f2f;
+        }
+
+        .container {
+            float: left;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+        }
+        .inputs:focus {
+            outline: none;
+        }
+
+    </style>
+</head>
+<body>
+<nav>
+    <form action="after-back-room-list" method="post">
+        <button class="submitButton">Back to Room-List</button>
+    </form>
+</nav>
+<div class="container">
+    <h1>Create new private Task</h1>
+    <form action="/after-new" method="post">
+        <section class="LoginField">
+            <div class="loginItem">
+                <input name="title" required type="text">
+                <span>Title</span>
+            </div>
+
+            <div class="loginItem">
+                <input name="info" required type="text">
+                <span>Additional Info</span>
+            </div>
+
+            <div class="loginItem">
+                <input name="deadline" required type="date">
+            </div>
+
+            <button style="border-radius: 5px;border-width: 0;background-color: #8ba4a4; margin-top: 10px"
+                    type="submit"
+                    class="submitButton">
+                Create
+            </button>
+        </section>
+    </form>
+</div>
+<div class="container">
+    <h1>Tasks</h1>
+    <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px;width: 100%">
+        <div style="padding-left: 30px;padding-top: 5px">
+            <form action="/after-delete-privateTasks" method="post" th:each="tasks:${listtask}"
+                  style="padding-left: 5px;padding-right: 5px;">
+                <textarea th:text="${tasks.getIndex()}" type="text" id="index" class="inputs" name="index"
+                          style="resize: none; width: 5%;" readonly></textarea>
+                <textarea th:text="${tasks.getTitle()}" type="text" id="title" class="inputs" name="title"
+                          style="resize: none;width: 25%" readonly></textarea>
+                <textarea th:text="${tasks.getInfo()}" type="text" id="info" class="inputs" name="info"
+                          style="resize: none;width: 25%" readonly></textarea>
+                <textarea th:text="${tasks.getDeadline()}" type="text" id="deadline" class="inputs" name="deadline"
+                          style="resize: none;width: 25%" readonly></textarea>
+                <button type="submit" class="submitButton" style="width: 100px;position: relative;
+  top: -15px;">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

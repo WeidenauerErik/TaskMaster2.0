@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import org.apache.catalina.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @org.springframework.stereotype.Controller
 public class Controller {
-    UserHandler staticuser = new UserHandler();
+    UserHandler staticuser;
 
     @PostMapping("/")
     public String howtouse() {
@@ -79,7 +80,14 @@ public class Controller {
             return "Room-List";
         }
         RoomManager.addRoomtoUser(room,staticuser);
-        return "Room";
+
+        if (Filemanager.getFirstRow(room)[0].equals(staticuser.getUsername())) {
+            return "Room-Tasks-Admin";
+        }
+        if (Filemanager.getFirstRow(staticuser)[1].equals("teacher")) {
+            return "Room-Tasks-Admin";
+        }
+        return "Room-Tasks-Normal";
     }
 
     @PostMapping("/after-create")
@@ -91,7 +99,7 @@ public class Controller {
             return "Room-List";
         }
         RoomManager.addRoomtoUser(room,staticuser);
-        return "Room";
+        return "Room-Tasks-Admin";
     }
 
     @PostMapping("/after-delete")
@@ -103,10 +111,39 @@ public class Controller {
         return "Room-List";
     }
 
-    @PostMapping("after-back-room-list")
+    @PostMapping("/after-back-login")
     public String afterbackroomlist(Model model) {
         model.addAttribute("wrongsignup","");
         model.addAttribute("wronglogin", "");
         return "LoginUser";
     }
+
+    @PostMapping("after-back-room-list")
+    public String afterbackroomlist() {
+        return "Room-List";
+    }
+
+    @PostMapping("/after-connect-privateTasks")
+    public String afterconnectprivateTask(Model model) throws IOException {
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", TaskManager.getTasks(staticuser));
+        return "PrivateTask";
+    }
+
+    @PostMapping("/after-new")
+    public String afternewprivateTask(Task task, Model model) throws IOException{
+        TaskManager.addTask(task,staticuser);
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", TaskManager.getTasks(staticuser));
+        return "PrivateTask";
+    }
+
+    @PostMapping("after-delete-privateTasks")
+    public String afterdeleteprivateTask(Task task, Model model) throws IOException {
+        System.out.println(task);
+        TaskManager.deleteTask(task,staticuser);
+        model.addAttribute("listtask", TaskManager.getTasks(staticuser));
+        return "PrivateTask";
+    }
+
 }

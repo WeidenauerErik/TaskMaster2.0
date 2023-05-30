@@ -75,7 +75,9 @@
             border: 1px solid #1e2f2f;
         }
 
-        body {
+        .container {
+            float: left;
+            width: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -90,66 +92,84 @@
         .connects {
             font-size: 20px;
         }
+
     </style>
 </head>
 <body>
 <nav>
-    <form action="after-back-room-list" method="post"><button class="submitButton">Back to Login</button></form>
+    <form action="after-back-login" method="post">
+        <button class="submitButton">Back to Login</button>
+    </form>
 </nav>
-<div>
-    <h1>Connect to a room</h1>
-    <form action="/after-connect" method="post">
-        <section class="LoginField">
-            <div class="loginItem">
-                <input class="roomname" name="roomname" required type="text">
-                <span>Roomname</span>
-            </div>
+<div class="container">
+    <div>
+        <h1>Connect to a room</h1>
+        <form action="/after-connect" method="post">
+            <section class="LoginField">
+                <div class="loginItem">
+                    <input class="roomname" name="roomname" required type="text">
+                    <span>Roomname</span>
+                </div>
 
-            <div class="loginItem">
-                <input class="password" name="password" required type="password">
-                <span>Password</span>
-            </div>
+                <div class="loginItem">
+                    <input class="password" name="password" required type="password">
+                    <span>Password</span>
+                </div>
 
-            <button style="border-radius: 5px;border-width: 0;background-color: #8ba4a4; margin-top: 10px" type="submit"
-                    class="submitButton">
-                Connect
-            </button>
-        </section>
+                <button style="border-radius: 5px;border-width: 0;background-color: #8ba4a4; margin-top: 10px"
+                        type="submit"
+                        class="submitButton">
+                    Connect
+                </button>
+            </section>
 
-        <p th:text="${wrongconnectdata}" class="wrong"></p>
-    </form>
-    <h1>Create a new room</h1>
-    <form action="/after-create" method="post">
-        <section class="LoginField">
-            <div class="loginItem">
-                <input class="roomname" name="roomname" required type="text">
-                <span>Roomname</span>
-            </div>
+            <p th:text="${wrongconnectdata}" class="wrong"></p>
+        </form>
+        <h1>Create a new room</h1>
+        <form action="/after-create" method="post">
+            <section class="LoginField">
+                <div class="loginItem">
+                    <input class="roomname" name="roomname" required type="text">
+                    <span>Roomname</span>
+                </div>
 
-            <div class="loginItem">
-                <input class="password" name="password" required type="password">
-                <span>Password</span>
-            </div>
+                <div class="loginItem">
+                    <input class="password" name="password" required type="password">
+                    <span>Password</span>
+                </div>
 
-            <button style="border-radius: 5px;border-width: 0;background-color: #8ba4a4; margin-top: 10px" type="submit"
-                    class="submitButton">
-                Create
-            </button>
-        </section>
-        <p th:text="${wrongmakedata}" class="wrong"></p>
-    </form>
+                <button style="border-radius: 5px;border-width: 0;background-color: #8ba4a4; margin-top: 10px"
+                        type="submit"
+                        class="submitButton">
+                    Create
+                </button>
+            </section>
+            <p th:text="${wrongmakedata}" class="wrong"></p>
+        </form>
+        <h1>Show private Tasks</h1>
+        <form method="post" action="/after-connect-privateTasks">
+            <section class="LoginField">
+                <button type="submit" class="submitButton"
+                        style="border-radius: 5px;border-width: 0;background-color: #8ba4a4; margin-top: 10px">Connect
+                </button>
+            </section>
+        </form>
+    </div>
 </div>
-<div>
+<div class="container">
     <div style="display: flex;flex-flow: row">
         <h1>Connects</h1>
         <form action="/after-delete" method="post" style="margin-top: 20px;margin-left: 10px">
             <button type="submit" style="font-size: 20px">&#x1F5D1;</button>
         </form>
     </div>
-    <div th:each="connects:${connects}" style="">
-        <div style="background-color: #8ba4a4; border-radius: 10px">
-            <p style="padding: 5px"><span th:text="${connects.getRoomname()}" class="connects">Roomname</span> made by:
-                <span th:text="${connects.getOwner()}" class="connects">Owner</span></p>
+    <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px">
+        <div th:each="connects:${connects}" style="padding-left: 5px;padding-right: 5px;">
+            <div style="background-color: #fff; border-radius: 10px">
+                <p style="padding: 5px"><span th:text="${connects.getRoomname()}" class="connects">Roomname</span> made
+                    by:
+                    <span th:text="${connects.getOwner()}" class="connects">Owner</span></p>
+            </div>
         </div>
     </div>
 </div>

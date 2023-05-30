@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>How to operate Taskmaster</title>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@100&display=swap');
 
@@ -18,20 +20,40 @@
             justify-content: center;
             flex-direction: column;
         }
+
+        .stripe {
+            font-size: 1.3em;
+        }
+
+        #explanation {
+            border: #637a7a solid 10px;
+            border-radius: 50px;
+            font-size: 1.4em;
+            padding: 30px;
+            max-width: 50vw;
+        }
     </style>
 
+    <title>How to operate TaskMaster</title>
 </head>
 <body>
-<h1>How to operate TaskMaster</h1>
-<p>
-<h2>Explanation for "Login":</h2>
-In order to use the website features, you must first log in or re-register. If you already have an account, simply enter your login information (username and password) and click the "Login" button. If you don't have an account yet, click the "Not registered yet?" button and follow the instructions to create a new account.
-
-<h2>Explanation for "Rooms":</h2>
-On the website, you have the option to create your own rooms or connect to existing rooms. A room is a virtual space where users can come together and share information. To create a new room, click on the appropriate button and enter a room name and password of your choice. To join an existing room, write in the form under the heading "Connect to a Room" the room name and password of the room where you want to join.
-
-<h2>Explanation for "In the rooms":</h2>
-After you join a room and are the creator of the room, you have the option, if your rank allows it, to add "Tasks". This allows room participants to define, organize and track tasks. You can create a new task by clicking the corresponding button or input field and entering the details of the task, such as a description, due date, or other relevant information.
-
+<div class="stripe"><p>Welcome to TaskMaster, your Homework-Organizer.</p></div>
+<h1>About our Project</h1>
+<p id="explanation">The TaskMaster project is a web application that is used to manage the homework and assignments of a
+    class in a clear
+    and centralized way. Teachers can log in with their login data and assign room-tasks. The students on the other hand
+    can view these tasks under their own access.<br>
+    Our application is based on SpringBoot using Thymeleaf. SpringBoot to create a web app with Java and manage the
+    project. With Thymeleaf DOM elements for the HTML code can be created, which is important for creating new
+    tasks.<br>
+    If a new user opens the start page of our website, he is offered to create a new account. For this purpose the user
+    enters his room name, username, position (teacher/student: different permissions) and password. Now he can log in on
+    the login page.<br>
+    The teachers can, if logged in, assign tasks centralized for their room/group. Every student who belongs to that
+    room
+    will see those assignments.<br>
+    As far as data storage is concerned, the user's password is stored hashed.<br>
+    The goal of the project is to learn how to manage the login of users and the storage of data, as well as to become
+    more familiar with SpringBoot and Thymeleaf.<br>
 </body>
 </html>

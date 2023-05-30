@@ -35,13 +35,20 @@ public class RoomManager {
 
     public static void addRoomtoUser(RoomHandler room,UserHandler user) throws IOException {
         Path fileLocation = Path.of("user/" + user.getUsername() + "/" + user.getUsername() + "_groups.txt");
-
+        List<String> getOwner = getOwner(user);
+        List<String> getRooms = getRooms(user);
+        for (int i = 0; i < getOwner.size(); i++) {
+            if (getRooms.get(i).equals(room.getRoomname())){
+                if (getOwner.get(i).equals(user.getUsername())) {
+                    return;
+                }
+            }
+        }
         try (BufferedWriter writer = Files.newBufferedWriter(fileLocation,StandardOpenOption.APPEND)) {
             writer.write(room.getRoomname()+System.lineSeparator());
             writer.write(user.getUsername()+System.lineSeparator());
         }
     }
-
 
     public static List<String> getRooms(UserHandler user) throws IOException {
         List<String> lastconnects = new ArrayList<>();
@@ -55,6 +62,8 @@ public class RoomManager {
         }
         return lastconnects;
     }
+
+
     public static List<String> getOwner(UserHandler user) throws IOException {
         List<String> lastconnects = new ArrayList<>();
         Path fileLocation = Path.of("user/" + user.getUsername() + "/" + user.getUsername() + "_groups.txt");
@@ -73,10 +82,9 @@ public class RoomManager {
         List<Connects> connects = new ArrayList<>();
         List<String> getRooms = getRooms(user);
         List<String> getOwner = getOwner(user);
-        for (int i = 0; i < getOwner.size() && i <= 5; i++) {
+        for (int i = 0; i < getOwner.size(); i++) {
             connects.add(new Connects(getOwner.get(i),getRooms.get(i)));
         }
-        System.out.println(connects);
         return connects;
     }
 

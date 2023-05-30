@@ -102,7 +102,7 @@
 </nav>
 <div class="container">
   <h1>Create new Room Task</h1>
-  <form action="/after-new" method="post">
+  <form action="/after-new-roomTasks" method="post">
     <section class="LoginField">
       <div class="loginItem">
         <input name="title" required type="text">
@@ -130,8 +130,7 @@
   <h1>Tasks</h1>
   <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px;width: 100%">
     <div style="padding-left: 30px;padding-top: 5px">
-      <form action="/after-delete-privateTasks" method="post" th:each="tasks:${listtask}"
-            style="padding-left: 5px;padding-right: 5px;">
+      <form action="/after-delete-roomTasks" method="post" th:each="tasks:${listtask}" style="padding-left: 5px;padding-right: 5px;">
                 <textarea th:text="${tasks.getIndex()}" type="text" id="index" class="inputs" name="index"
                           style="resize: none; width: 5%;" readonly></textarea>
         <textarea th:text="${tasks.getTitle()}" type="text" id="title" class="inputs" name="title"

@@ -1,6 +1,5 @@
 package com.example.taskmaster;
 
-import org.apache.catalina.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +14,7 @@ import java.util.List;
 @org.springframework.stereotype.Controller
 public class Controller {
     UserHandler staticuser;
+    RoomHandler staticroom;
 
     @PostMapping("/")
     public String howtouse() {
@@ -75,6 +75,9 @@ public class Controller {
     public String afterconnect(@ModelAttribute RoomHandler room,Model model) throws IOException, NoSuchAlgorithmException {
         model.addAttribute("wrongconnectdata", "");
         model.addAttribute("wrongmakedata","");
+        staticroom = room;
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PublicTaskManager.getTasks(staticroom));
         if (!(RoomManager.checkRoom(room,staticuser))) {
             model.addAttribute("wrongconnectdata", "Login data is not valid!");
             return "Room-List";
@@ -94,6 +97,9 @@ public class Controller {
     public String afterCreate(@ModelAttribute RoomHandler room,Model model) throws NoSuchAlgorithmException, IOException {
         model.addAttribute("wrongconnectdata", "");
         model.addAttribute("wrongmakedata","");
+        staticroom = room;
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PublicTaskManager.getTasks(staticroom));
         if (!(RoomManager.createRoom(room,staticuser))) {
             model.addAttribute("wrongmakedata","This room does already exists!");
             return "Room-List";
@@ -112,38 +118,69 @@ public class Controller {
     }
 
     @PostMapping("/after-back-login")
-    public String afterbackroomlist(Model model) {
+    public String afterbackroom(Model model) {
         model.addAttribute("wrongsignup","");
         model.addAttribute("wronglogin", "");
         return "LoginUser";
     }
 
     @PostMapping("after-back-room-list")
-    public String afterbackroomlist() {
+    public String afterbackroomlist(Model model) throws IOException {
+        List<Connects> ausgabe = RoomManager.getConnects(staticuser);
+        Collections.reverse(ausgabe);
+        model.addAttribute("connects", ausgabe);
         return "Room-List";
     }
 
     @PostMapping("/after-connect-privateTasks")
     public String afterconnectprivateTask(Model model) throws IOException {
         model.addAttribute("listtask", "");
-        model.addAttribute("listtask", TaskManager.getTasks(staticuser));
+        model.addAttribute("listtask", PrivateTaskManager.getTasks(staticuser));
         return "PrivateTask";
     }
 
-    @PostMapping("/after-new")
+    @PostMapping("/after-new-privateTasks")
     public String afternewprivateTask(Task task, Model model) throws IOException{
-        TaskManager.addTask(task,staticuser);
+        PrivateTaskManager.addTask(task,staticuser);
         model.addAttribute("listtask", "");
-        model.addAttribute("listtask", TaskManager.getTasks(staticuser));
+        model.addAttribute("listtask", PrivateTaskManager.getTasks(staticuser));
         return "PrivateTask";
     }
 
     @PostMapping("after-delete-privateTasks")
     public String afterdeleteprivateTask(Task task, Model model) throws IOException {
-        System.out.println(task);
-        TaskManager.deleteTask(task,staticuser);
-        model.addAttribute("listtask", TaskManager.getTasks(staticuser));
+        PrivateTaskManager.deleteTask(task,staticuser);
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PrivateTaskManager.getTasks(staticuser));
         return "PrivateTask";
+    }
+
+    @PostMapping("/after-new-roomTasks")
+    public String afternewroomTask(Task task, Model model) throws IOException{
+        PublicTaskManager.addTask(task,staticroom);
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PublicTaskManager.getTasks(staticroom));
+        if (Filemanager.getFirstRow(staticroom)[0].equals(staticuser.getUsername())) {
+            return "Room-Tasks-Admin";
+        }
+        if (Filemanager.getFirstRow(staticuser)[1].equals("teacher")) {
+            return "Room-Tasks-Admin";
+        }
+        return "Room-Tasks-Normal";
+    }
+
+    @PostMapping("after-delete-roomTasks")
+    public String afterdeleteroomTask(Task task, Model model) throws IOException {
+        PublicTaskManager.deleteTask(task,staticroom);
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PublicTaskManager.getTasks(staticroom));
+        if (Filemanager.getFirstRow(staticroom)[0].equals(staticuser.getUsername())) {
+            return "Room-Tasks-Admin";
+        }
+        if (Filemanager.getFirstRow(staticuser)[1].equals("teacher")) {
+            return "Room-Tasks-Admin";
+        }
+        return "Room-Tasks-Normal";
     }
 
 }

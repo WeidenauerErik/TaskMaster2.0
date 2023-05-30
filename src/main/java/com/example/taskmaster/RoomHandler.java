@@ -3,6 +3,12 @@ package com.example.taskmaster;
 public class RoomHandler {
     String roomname;
     String password;
+
+    public RoomHandler(String roomname, String password) {
+        this.password = password;
+        this.roomname = roomname;
+    }
+
     public String getPassword() {
         return password;
     }

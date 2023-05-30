@@ -30,6 +30,7 @@ public class RoomManager {
         Files.createFile(Path.of("rooms/" + room.getRoomname()+"/"+room.getRoomname()+"_user.txt"));
         Files.write(Path.of("rooms/" + room.getRoomname()+"/"+room.getRoomname() + "_info.txt"), (user.getUsername() + ";" + PasswordEncryptor.encrypt(room.password)).getBytes());
         Files.write(Path.of("rooms/" + room.getRoomname()+"/"+room.getRoomname()+"_user.txt"),(user.getUsername()).getBytes());
+        Files.createFile(Path.of("rooms/"+room.getRoomname()+"/"+room.getRoomname()+"_tasks.txt"));
         return true;
     }
 
@@ -37,16 +38,17 @@ public class RoomManager {
         Path fileLocation = Path.of("user/" + user.getUsername() + "/" + user.getUsername() + "_groups.txt");
         List<String> getOwner = getOwner(user);
         List<String> getRooms = getRooms(user);
+        boolean counter = true;
         for (int i = 0; i < getOwner.size(); i++) {
             if (getRooms.get(i).equals(room.getRoomname())){
-                if (getOwner.get(i).equals(user.getUsername())) {
-                    return;
-                }
+                counter = false;
             }
         }
-        try (BufferedWriter writer = Files.newBufferedWriter(fileLocation,StandardOpenOption.APPEND)) {
-            writer.write(room.getRoomname()+System.lineSeparator());
-            writer.write(user.getUsername()+System.lineSeparator());
+        if (counter == true) {
+            try (BufferedWriter writer = Files.newBufferedWriter(fileLocation, StandardOpenOption.APPEND)) {
+                writer.write(room.getRoomname() + System.lineSeparator());
+                writer.write(user.getUsername() + System.lineSeparator());
+            }
         }
     }
 

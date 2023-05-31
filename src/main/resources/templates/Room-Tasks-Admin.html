@@ -132,15 +132,17 @@
     <div style="padding-left: 30px;padding-top: 5px">
       <form action="/after-delete-roomTasks" method="post" th:each="tasks:${listtask}" style="padding-left: 5px;padding-right: 5px;">
                 <textarea th:text="${tasks.getIndex()}" type="text" id="index" class="inputs" name="index"
-                          style="resize: none; width: 5%;" readonly></textarea>
+                          style="resize: none; width: 5%;" readonly>0</textarea>
         <textarea th:text="${tasks.getTitle()}" type="text" id="title" class="inputs" name="title"
-                  style="resize: none;width: 25%" readonly></textarea>
+                  style="resize: none;width: 25%" readonly>Sew-Hausübung</textarea>
         <textarea th:text="${tasks.getInfo()}" type="text" id="info" class="inputs" name="info"
-                  style="resize: none;width: 25%" readonly></textarea>
+                  style="resize: none;width: 25%" readonly>-</textarea>
         <textarea th:text="${tasks.getDeadline()}" type="text" id="deadline" class="inputs" name="deadline"
-                  style="resize: none;width: 25%" readonly></textarea>
+                  style="resize: none;width: 15%" readonly>05/27/2023</textarea>
+        <textarea th:text="${tasks.getOwner()}" type="text" id="owner" class="inputs"
+                  style="resize: none;width: 13%" readonly>Erik</textarea>
         <button type="submit" class="submitButton" style="width: 100px;position: relative;
-  top: -15px;">Delete</button>
+  top: -15px;width: 5%">&#x1F5D1;</button>
       </form>
     </div>
   </div>

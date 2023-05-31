@@ -23,27 +23,26 @@ public class PublicTaskManager {
 
     public static void deleteTask(Task task, RoomHandler room) throws IOException {
         Path fileLocation = Path.of("rooms/" + room.getRoomname() + "/" + room.getRoomname() + "_tasks.txt");
-        List<Task> ausgabe = getTasks(room);
+        List<TaskwithOwner> ausgabe = getTasks(room);
         try (BufferedWriter out = Files.newBufferedWriter(fileLocation)) {
-            for (Task tmp : ausgabe) {
+            for (TaskwithOwner tmp : ausgabe) {
                 if (!(task.getIndex().equals(tmp.getIndex()))) {
                     out.write(tmp.getTitle() + System.lineSeparator());
                     out.write(tmp.getInfo() + System.lineSeparator());
                     out.write(tmp.getDeadline() + System.lineSeparator());
-
                 }
             }
         }
 
     }
 
-    public static List<Task> getTasks(RoomHandler room) throws IOException {
-        List<Task> ausgabe = new ArrayList<>();
+    public static List<TaskwithOwner> getTasks(RoomHandler room) throws IOException {
+        List<TaskwithOwner> ausgabe = new ArrayList<>();
         List<String> ausgabereadFiletoList = readFileToList(room);
         int counter = 0;
         for (int i = 0; i < ausgabereadFiletoList.size(); i += 3) {
 
-            ausgabe.add(new Task(ausgabereadFiletoList.get(i), ausgabereadFiletoList.get(i + 1), ausgabereadFiletoList.get(i + 2),String.valueOf(counter)));
+            ausgabe.add(new TaskwithOwner(ausgabereadFiletoList.get(i), ausgabereadFiletoList.get(i + 1), ausgabereadFiletoList.get(i + 2),String.valueOf(counter),Filemanager.getFirstRow(room)[0]));
             counter++;
         }
         return ausgabe;

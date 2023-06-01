@@ -163,8 +163,8 @@
             <button type="submit" style="font-size: 20px">&#x1F5D1;</button>
         </form>
     </div>
-    <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px">
-        <div th:each="connects:${connects}" style="padding-left: 5px;padding-right: 5px;">
+    <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px;width: 70%">
+        <div th:each="connects:${connects}" style="padding-left: 5px;padding-left: 20px;margin-right: 20px">
             <div style="background-color: #fff; border-radius: 10px">
                 <p style="padding: 5px"><span th:text="${connects.getRoomname()}" class="connects">Roomname</span> made
                     by:

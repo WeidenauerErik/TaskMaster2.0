@@ -15,6 +15,14 @@ public class Filemanager {
         }
     }
 
+    public static String[] getFirstRow(String username) throws IOException {
+        Path fileLocation = Path.of("user/" + username + "/" + username + ".txt");
+
+        try (BufferedReader reader = Files.newBufferedReader(fileLocation)) {
+            return reader.readLine().split(";");
+        }
+    }
+
     public static String[] getFirstRow(RoomHandler room) throws IOException {
         Path fileLocation = Path.of("rooms/" + room.getRoomname() + "/" + room.getRoomname() + "_info.txt");
 

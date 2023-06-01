@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -58,8 +59,18 @@ public class Controller {
 
     @PostMapping("/after-login")
     public String afterLogin(@ModelAttribute UserHandler user, Model model) throws IOException, NoSuchAlgorithmException {
+        if (user.getUsername().equals("admin")){
+            if (PasswordEncryptor.encrypt(user.getPassword()).equals(AdminController.getPassword()[0])) {
+                model.addAttribute("adminuserlist",AdminController.makeUser());
+                return "AdminDashboard";
+            }
+        }
         model.addAttribute("wrongsignup","");
         model.addAttribute("wronglogin", "");
+        if (Filemanager.getFirstRow(user).length == 3) {
+            model.addAttribute("wronglogin","You are banned!");
+            return "LoginUser";
+        }
         if (LoginUser.checkUser(user) == false) {
             model.addAttribute("wronglogin", "Login data is not valid!");
             return "LoginUser";

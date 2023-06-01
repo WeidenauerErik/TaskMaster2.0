@@ -47,7 +47,7 @@ public class RoomManager {
         if (counter == true) {
             try (BufferedWriter writer = Files.newBufferedWriter(fileLocation, StandardOpenOption.APPEND)) {
                 writer.write(room.getRoomname() + System.lineSeparator());
-                writer.write(user.getUsername() + System.lineSeparator());
+                writer.write(Filemanager.getFirstRow(room)[0] + System.lineSeparator());
             }
         }
     }
@@ -77,6 +77,7 @@ public class RoomManager {
                 reader.readLine();
             }
         }
+        System.out.println(lastconnects);
         return lastconnects;
     }
 

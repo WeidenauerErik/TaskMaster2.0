@@ -90,7 +90,15 @@
 </nav>
 <div style="display:flex;justify-content: center">
     <div class="container">
-        <h1>Room Tasks</h1>
+        <div style="display: flex;flex-direction: row">
+            <form action="/after-unsort-publicTask" method="post" style="position: relative;top: 20px;left: -20px">
+                <button type="submit" class="submitButton">Unsort</button>
+            </form>
+            <h1>Room Tasks</h1>
+            <form action="/after-sort-publicTask" method="post" style="position: relative;top: 20px;left: 20px">
+                <button type="submit" class="submitButton">Sort</button>
+            </form>
+        </div>
         <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px;width: 100%">
             <div style="padding-left: 30px;padding-top: 5px" th:each="tasks:${listtask}">
 

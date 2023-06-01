@@ -77,7 +77,6 @@ public class RoomManager {
                 reader.readLine();
             }
         }
-        System.out.println(lastconnects);
         return lastconnects;
     }
 

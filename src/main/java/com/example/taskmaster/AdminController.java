@@ -16,9 +16,6 @@ import java.util.List;
 @Controller
 public class AdminController {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-        System.out.println(makeUser());
-    }
     public static String[] getPassword() throws IOException {
         Path fileLocation = Path.of("user/admin/admin.txt");
 

@@ -158,6 +158,58 @@ public class Controller {
         return "PrivateTask";
     }
 
+    @PostMapping("/after-sort-privateTask")
+    public String aftersortprivate(Model model) throws IOException {
+        List<Task> ausgabePrivate = PrivateTaskManager.getTasks(staticuser);
+        List<Task> sorted = new ArrayList<>();
+        for (Task tmp:ausgabePrivate) {
+            sorted.add(tmp);
+        }
+        List<Task> ausgabe = PrivateTaskManager.sortTasks(sorted);
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", ausgabe);
+        return "PrivateTask";
+    }
+
+    @PostMapping("/after-unsort-privateTask")
+    public String afterunsortprivate(Model model) throws IOException {
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PrivateTaskManager.getTasks(staticuser));
+        return "PrivateTask";
+    }
+
+    @PostMapping("/after-unsort-publicTask")
+    public String afterunsortpublicTask(Model model) throws IOException {
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", PublicTaskManager.getTasks(staticroom));
+        if (Filemanager.getFirstRow(staticroom)[0].equals(staticuser.getUsername())) {
+            return "Room-Tasks-Admin";
+        }
+        if (Filemanager.getFirstRow(staticuser)[1].equals("teacher")) {
+            return "Room-Tasks-Admin";
+        }
+        return "Room-Tasks-Normal";
+    }
+
+    @PostMapping("/after-sort-publicTask")
+    public String aftersortpublic(Model model) throws IOException {
+        List<TaskwithOwner> ausgabePrivate = PublicTaskManager.getTasks(staticroom);
+        List<TaskwithOwner> sorted = new ArrayList<>();
+        for (TaskwithOwner tmp:ausgabePrivate) {
+            sorted.add(tmp);
+        }
+        List<TaskwithOwner> ausgabe = PublicTaskManager.sortTasks(sorted);
+        model.addAttribute("listtask", "");
+        model.addAttribute("listtask", ausgabe);
+        if (Filemanager.getFirstRow(staticroom)[0].equals(staticuser.getUsername())) {
+            return "Room-Tasks-Admin";
+        }
+        if (Filemanager.getFirstRow(staticuser)[1].equals("teacher")) {
+            return "Room-Tasks-Admin";
+        }
+        return "Room-Tasks-Normal";
+    }
+
     @PostMapping("after-delete-privateTasks")
     public String afterdeleteprivateTask(Task task, Model model) throws IOException {
         PrivateTaskManager.deleteTask(task,staticuser);

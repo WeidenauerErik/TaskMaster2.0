@@ -88,6 +88,7 @@
             display: flex;
             flex-direction: column;
         }
+
         .inputs:focus {
             outline: none;
         }
@@ -127,7 +128,15 @@
     </form>
 </div>
 <div class="container">
-    <h1>Tasks</h1>
+    <div style="display: flex;flex-direction: row">
+        <form action="/after-unsort-privateTask" method="post" style="position: relative;top: 20px;left: -20px">
+            <button type="submit" class="submitButton">Unsort</button>
+        </form>
+        <h1>Tasks</h1>
+        <form action="/after-sort-privateTask" method="post" style="position: relative;top: 20px;left: 20px">
+            <button type="submit" class="submitButton">Sort</button>
+        </form>
+    </div>
     <div style="overflow: scroll;background-color: #8ba4a4;height: 600px;border-radius: 20px;width: 100%">
         <div style="padding-left: 30px;padding-top: 5px">
             <form action="/after-delete-privateTasks" method="post" th:each="tasks:${listtask}"
@@ -141,7 +150,8 @@
                 <textarea th:text="${tasks.getDeadline()}" type="text" id="deadline" class="inputs" name="deadline"
                           style="resize: none;width: 25%" readonly></textarea>
                 <button type="submit" class="submitButton" style="width: 100px;position: relative;
-  top: -15px;">Delete</button>
+  top: -15px;">Delete
+                </button>
             </form>
         </div>
     </div>

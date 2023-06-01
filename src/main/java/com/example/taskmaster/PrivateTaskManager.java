@@ -9,6 +9,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrivateTaskManager {
+
+    public static List<Task> sortTasks(List<Task> tasks) {
+        if (tasks.size() > 1) {
+            tasks.sort((o1, o2) -> {
+                String[] date1, date2;
+                try {
+                    date1 = o1.getDeadline().split("-");
+                } catch (NullPointerException e) {
+                    return 1;
+                }
+                try {
+                    date2 = o2.getDeadline().split("-");
+                } catch (NullPointerException e) {
+                    return -1;
+                }
+
+                if (date1.length < 2) {
+                    return 1;
+                } else if (date2.length < 2) {
+                    return -1;
+                }
+
+                if (Integer.parseInt(date1[2]) < Integer.parseInt(date2[2])) {
+                    return -1;
+                } else if (Integer.parseInt(date1[1]) < Integer.parseInt(date2[1])) {
+                    return -1;
+                } else if (Integer.parseInt(date1[0]) < Integer.parseInt(date2[0])) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+        }
+        return tasks;
+    }
+
     public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
         UserHandler user = new UserHandler("Erik", "123", "student");
         getTasks(user);
